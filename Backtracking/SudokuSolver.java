@@ -20,7 +20,7 @@ public class SudokuSolver{
 		int startRow=(row/3)*3;
 		int startClm=(clm/3)*3;
 		for(int i=startRow;i<startRow+3;i++){
-			for(int j=startClm;j<startClm;j++){
+			for(int j=startClm;j<startClm+3;j++){
 				if(grid[i][j]!=0 && hs.contains(grid[i][j]))
 					return false;
 				hs.add(grid[i][j]);
@@ -42,39 +42,40 @@ public class SudokuSolver{
 				newGrid[i][j]=grid[i][j];
 		return newGrid;
 	}
-	public static void solve(int[][] grid,int row,int clm){
+	public static boolean solve(int[][] grid,int row,int clm){
 		if(clm==9){
 			clm=0;
 			row++;
-			if(row>=9){
-				Scanner in=new Scanner(System.in);
-				in.next();
+			if(row==9){
 				printGrid(grid);
-				return;
+				return true;
 			}
 		}
 		if(grid[row][clm]!=0){
-			System.out.println("Skipped: "+row+" "+clm);
-			solve(grid,row,clm+1);
+			if(solve(grid,row,clm+1))
+				return true;
+			return false;
 		}
 		for(int i=1;i<=9;i++){
 			int[][] newGrid=copyGrid(grid);
 			newGrid[row][clm]=i;
 			if(!isValid(newGrid,row,clm))
 				continue;
-			solve(newGrid,row,clm+1);
+			if(solve(newGrid,row,clm+1))
+				return true;
 		}
+		return false;
 	}
 	public static int[][] initialiseGrid(int[][] grid){
-		int [][] arr={{2,4,9,0,7,6,0,0,0},
-			      {8,3,0,0,0,0,0,6,9},
-			      {0,0,0,0,8,9,5,2,4},
-			      {3,6,0,2,4,0,0,5,0},
-			      {0,9,0,0,5,0,4,1,0},
-			      {0,5,4,6,0,0,0,3,0},
-			      {0,1,6,9,0,0,2,0,8},
-			      {0,0,7,1,6,8,0,0,5},
-			      {9,0,0,0,0,5,0,0,1}};
+		int [][] arr={{3,0,0,8,0,1,0,0,2},
+			      {2,0,1,0,3,0,6,0,4},
+			      {0,0,0,2,0,4,0,0,0},
+			      {8,0,9,0,0,0,1,0,6},
+			      {0,6,0,0,0,0,0,5,0},
+			      {7,0,2,0,0,0,4,0,9},
+			      {0,0,0,5,0,9,0,0,0},
+			      {9,0,4,0,8,0,7,0,5},
+			      {6,0,0,1,0,7,0,0,3}};
 		return arr;
 	}
 	public static void populateGrid(int[][] grid){
@@ -92,6 +93,7 @@ public class SudokuSolver{
 		int[][] grid=new int[9][9];
 		grid=initialiseGrid(grid);
 		printGrid(grid);
+		System.out.println();
 		solve(grid,0,0);
 	}
 }
