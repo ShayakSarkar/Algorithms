@@ -1,5 +1,7 @@
-import java.util.*;
 
+//Given a 9 X 9 Sudoku Grid, find a solution for the same.
+
+import java.util.*;
 public class SudokuSolver{
 	public static boolean isValid(int[][] grid,int row,int clm){
 		HashSet<Integer> hs=new HashSet<Integer>();
@@ -15,6 +17,7 @@ public class SudokuSolver{
 			hs.add(grid[i][clm]);
 		}
 		hs.clear();
+
 		//----Validating the Box----
 
 		int startRow=(row/3)*3;
