@@ -19,12 +19,15 @@ public class RodCutting{
 		}
 	}
 	public static int findMax(int length,HashMap<Integer,Integer> hm){
+		if(maxMap.containsKey(length))
+			return maxMap.get(length);
 		int maxPrice=hm.get(length);
 		for(int i=1;i<=length/2;i++){
 			int price=findMax(i,hm)+findMax(length-i,hm);
 			if(price>maxPrice)
 				maxPrice=price;
 		}
+		maxMap.put(length,maxPrice);
 		return maxPrice;
 	}
 
