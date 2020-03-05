@@ -1,3 +1,5 @@
+// Given a string s, find all ways of partitioning s such that each of the partitions are palindromic
+
 import java.util.*;
 
 public class PalindromicPartitions{
