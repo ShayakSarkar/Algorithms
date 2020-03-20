@@ -1,0 +1,9 @@
+MaxHeap Sort
+MinHeap Sort
+Quick Sort
+Stable Quick Sort
+Double Pivot Quick Sort
+Ternary Heap Sort
+Weak Heap Sort
+Smooth Sort
+
