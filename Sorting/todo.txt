@@ -1,5 +1,3 @@
-MaxHeap Sort
-MinHeap Sort
 Quick Sort
 Stable Quick Sort
 Double Pivot Quick Sort
