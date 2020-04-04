@@ -3,6 +3,9 @@
 
 import java.util.*;
 public class SudokuSolver2{
+	public static final String RED="\u001b[31m";
+	public static final String RESET="\u001b[0m";
+	public static final String YELLOW="\u001b[32m";
 	public static boolean isValid(int[][] grid,int row,int clm){
 		HashSet<Integer> hs=new HashSet<Integer>();
 		for(int i=0;i<9;i++){
@@ -33,22 +36,52 @@ public class SudokuSolver2{
 	}
 	public static void printGrid(int[][] grid){
 		for(int i=0;i<9;i++){
-			for(int j=0;j<9;j++)
-				System.out.print(grid[i][j]+" ");
+			if(i%3==0 && i!=0){
+				for(int j=0;j<9;j++)
+					System.out.print(YELLOW+"~~"+RESET);
+				System.out.println();
+			}
+		
+			for(int j=0;j<9;j++){
+				if(j%3==0 && j!=0)
+					System.out.print(YELLOW+"|"+RESET);
+				if(grid[i][j]==0)
+					System.out.print(RED+"_ "+RESET);
+				else
+					System.out.print(grid[i][j]+" ");
+			}
 			System.out.println();
 		}
 	}
-	public static boolean solve(int[][] grid,int row,int clm){
+	public static void printSolution(int[][] sol,int[][] initGrid){
+		for(int i=0;i<9;i++){
+			if(i%3==0 && i!=0){
+				for(int j=0;j<9;j++)
+					System.out.print(YELLOW+"~~"+RESET);
+				System.out.println();
+			}
+			for(int j=0;j<9;j++){
+				if(j%3==0 && j!=0)
+					System.out.print(YELLOW+"|"+RESET);
+				if(initGrid[i][j]==0)
+					System.out.print(RED+sol[i][j]+RESET+" ");
+				else
+					System.out.print(sol[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+	public static boolean solve(int[][] grid,int row,int clm,int[][] initGrid){
 		if(clm==9){
 			clm=0;
 			row++;
 			if(row==9){
-				printGrid(grid);
+				printSolution(grid,initGrid);
 				return true;
 			}
 		}
 		if(grid[row][clm]!=0){
-			if(solve(grid,row,clm+1))
+			if(solve(grid,row,clm+1,initGrid))
 				return true;
 			return false;
 		}
@@ -56,7 +89,7 @@ public class SudokuSolver2{
 			grid[row][clm]=i;
 			if(!isValid(grid,row,clm))
 				continue;
-			if(solve(grid,row,clm+1))
+			if(solve(grid,row,clm+1,initGrid))
 				return true;
 		}
 		grid[row][clm]=0;
@@ -85,11 +118,24 @@ public class SudokuSolver2{
 		}
 	}
 
+	public static int[][] copyGrid(int[][] grid){
+		int[][] newGrid=new int[9][9];
+		for(int i=0;i<9;i++)
+			for(int j=0;j<9;j++)
+				newGrid[i][j]=grid[i][j];
+		return newGrid;
+	}
+
 	public static void main(String args[]){
 		int[][] grid=new int[9][9];
 		grid=initialiseGrid(grid);
+		int[][] initGrid=copyGrid(grid);
+		System.out.println();
 		printGrid(grid);
 		System.out.println();
-		solve(grid,0,0);
+		System.out.println();
+		System.out.println();
+		solve(grid,0,0,initGrid);
+
 	}
 }
